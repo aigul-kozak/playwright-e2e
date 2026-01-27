@@ -51,17 +51,4 @@ jobs:
         if: always()
         uses: rtCamp/action-slack-notify@v2
         with:
-          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          message: |
-            Nightly Playwright E2E Run completed.
-            Status: ${{ job.status }}
-            Projects ran:
-              - mobileMid-portrait-chromium-ar
-              - mobileMid-landscape-chromium-ku
-              - tabletSmall-portrait-webkit-ar
-              - tabletSmall-landscape-webkit-ar
-              - desktop-chromium-en
-              - desktop-firefox-ar
-              - desktop-webkit-ku
-            HTML report: see gh-pages branch → latest run folder
-          color: ${{ job.status == 'success' && 'good' || 'danger' }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
