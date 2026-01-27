@@ -39,7 +39,7 @@ jobs:
             --reporter=html
         continue-on-error: true # to allow report publishing and Slack notification even if tests fail
 
-      - name: Upload Playwright HTML report to gh-pages
+      - name: Publish Playwright report (unique run)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GH_PAGES_PAT }}
@@ -47,23 +47,34 @@ jobs:
           publish_branch: gh-pages
           destination_dir: ${{ github.run_number }}-${{ github.run_id }}
 
+      - name: Publish Playwright report (latest)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GH_PAGES_PAT }}
+          publish_dir: ./playwright-report
+          publish_branch: gh-pages
+          destination_dir: latest
+
       - name: Send Slack notification
         if: always()
         uses: 8398a7/action-slack@v3
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
           status: ${{ job.status }}
-          fields: repo,message,commit,author
+          fields: repo,commit,author
           text: |
-            Nightly Playwright E2E Run completed.
-            Status: ${{ job.status }}
-            Projects ran:
-            - mobileMid-portrait-chromium-ar
-            - mobileMid-landscape-chromium-ku
-            - tabletSmall-portrait-webkit-ar
-            - tabletSmall-landscape-webkit-ar
-            - desktop-chromium-en
-            - desktop-firefox-ar
-            - desktop-webkit-ku
-            HTML report: see gh-pages branch → latest run folder
+            🌙 *Nightly Playwright E2E Run completed*
+
+            *Status:* ${{ job.status }}
+
+            *Projects ran:*
+            • mobileMid-portrait-chromium-ar
+            • mobileMid-landscape-chromium-ku
+            • tabletSmall-portrait-webkit-ar
+            • tabletSmall-landscape-webkit-ar
+            • desktop-chromium-en
+            • desktop-firefox-ar
+            • desktop-webkit-ku
+
+            📊 *HTML report:* https://aigul-kozak.github.io/playwright-e2e/latest/
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
