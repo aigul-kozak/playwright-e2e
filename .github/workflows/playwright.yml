@@ -30,7 +30,7 @@ jobs:
         run: |
           npx playwright test \
             --project=mobileMid-portrait-chromium-ar \
-            --project=mobileMid-landscape-chromium-ku \
+            --project=mobileMin-portrait-chromium-ku \
             --project=tabletSmall-portrait-webkit-ar \
             --project=tabletSmall-landscape-webkit-ar \
             --project=desktop-chromium-en \
