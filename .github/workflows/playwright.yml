@@ -53,7 +53,6 @@ jobs:
         with:
           status: ${{ job.status }}
           fields: repo,message,commit,author
-          webhook: ${{ secrets.SLACK_WEBHOOK }}
           text: |
             Nightly Playwright E2E Run completed.
             Status: ${{ job.status }}
