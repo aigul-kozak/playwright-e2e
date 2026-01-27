@@ -1,0 +1,67 @@
+name: Playwright E2E (Nightly)
+
+on:
+  # Nightly run + manual run possibility
+  schedule:
+    - cron: "0 2 * * *" # every day at 02:00 UTC
+  workflow_dispatch: # manual run
+
+jobs:
+  nightly:
+    name: Nightly Playwright E2E
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Nightly Playwright projects
+        run: |
+          npx playwright test \
+            --project=mobileMid-portrait-chromium-ar \
+            --project=mobileMid-landscape-chromium-ku \
+            --project=tabletSmall-portrait-webkit-ar \
+            --project=tabletSmall-landscape-webkit-ar \
+            --project=desktop-chromium-en \
+            --project=desktop-firefox-ar \
+            --project=desktop-webkit-ku \
+            --reporter=html
+        continue-on-error: true # to allow report publishing and Slack notification even if tests fail
+
+      - name: Upload Playwright HTML report to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./playwright-report
+          publish_branch: gh-pages
+          destination_dir: ${{ github.run_number }}-${{ github.run_id }}
+
+      - name: Send Slack notification
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        with:
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: |
+            Nightly Playwright E2E Run completed.
+            Status: ${{ job.status }}
+            Projects ran:
+              - mobileMid-portrait-chromium-ar
+              - mobileMid-landscape-chromium-ku
+              - tabletSmall-portrait-webkit-ar
+              - tabletSmall-landscape-webkit-ar
+              - desktop-chromium-en
+              - desktop-firefox-ar
+              - desktop-webkit-ku
+            HTML report: see gh-pages branch → latest run folder
+          color: ${{ job.status == 'success' && 'good' || 'danger' }}
