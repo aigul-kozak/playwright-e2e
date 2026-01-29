@@ -15,15 +15,16 @@ npm ci
 npx playwright install --with-deps
 Make sure Node.js (v18+ or LTS) is installed
 
-3 Run selected projects (nightly run):
+3 Run selected projects (nightly run, sequential execution)
 npx playwright test \
  --project=mobileMid-portrait-chromium-ar \
- --project=mobileMid-landscape-chromium-ku \
+ --project=mobileMin-portrait-chromium-ku \
  --project=tabletSmall-portrait-webkit-ar \
- --project=tabletSmall-landscape-webkit-ar \
+ --project=tabletLarge-portrait-chromium-ar \
  --project=desktop-chromium-en \
  --project=desktop-firefox-ar \
- --project=desktop-webkit-ku
+ --project=desktop-webkit-ku \
+ --workers=1
 
 4 Test Reports
 Local run

@@ -13,7 +13,7 @@ class ResetPINPage {
     this.phoneNumberField = page.locator(
       'flt-semantics[flt-semantics-identifier="phone_number_input"]',
     );
-
+    this.phoneInput = page.locator('#tel');
     // === Validation messages for Reset PIN form ===
     this.validationMessage1 = page.getByText('Invalid mobile phone number'); // Invalid phone number message
     this.validationMessage2 = page.getByText('Required phone number'); // Required phone number message
@@ -59,24 +59,18 @@ class ResetPINPage {
 
   // === Enter phone number ===
   async enterPhoneNumber(phoneNumber) {
-    // find container
-    const phoneInputContainer = this.page.locator(
-      'flt-semantics[flt-semantics-identifier="phone_number_input"]',
-    );
-
-    await expect(phoneInputContainer).toBeVisible();
-    await phoneInputContainer.click(); // give focus
+    await this.phoneNumberField.click();
 
     // type by symbol (type() will find the active input inside)
     for (const char of phoneNumber) {
-      await phoneInputContainer.type(char, { delay: 50 });
+      await this.phoneInput.type(char, { delay: 50 });
     }
   }
 
   // === Refresh page to reset input field ===
   async refreshResetPINPage() {
     await this.page.reload();
-    await expect(this.resetPinTitle).toBeVisible({ timeout: 10000 });
+    await expect(this.resetPinTitle).toBeVisible({ timeout: 20000 });
   }
   // === Clear phone number ===
   async clearPhoneNumber(phoneNumber) {

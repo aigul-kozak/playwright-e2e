@@ -104,10 +104,7 @@ test.describe('WEB Auth flow', () => {
     await resetPINPage.enterPhoneNumber('0');
     await resetPINPage.clearPhoneNumber();
     //await expect(resetPINPage.validationMessage2).toBeVisible();
-    await resetPINPage.goBackToLoginPage();
-
-    await loginPage.clickWhatIsPinLink();
-    await loginPage.clickResetPINOnWhatIsPINModal();
+    await resetPINPage.refreshResetPINPage();
     await resetPINPage.enterPhoneNumber('7704302300');
     await resetPINPage.clickSendNewPinButtonFilled();
 

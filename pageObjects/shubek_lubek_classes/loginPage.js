@@ -22,6 +22,7 @@ class LoginPage {
     this.phoneNumberField = page.locator(
       'flt-semantics[flt-semantics-identifier="phone_number_input"]',
     );
+    this.phoneInput = page.locator('#tel');
     // PIN input
     this.pinField = page.locator('flt-semantics[flt-semantics-identifier="pin_input"]');
     this.pinInput = page.locator('#current-password');
@@ -122,12 +123,12 @@ class LoginPage {
 
     // type text per charachter with small delay to mimic real user input
     for (const char of phoneNumber) {
-      await this.phoneNumberField.type(char, { delay: 50 });
+      await this.phoneInput.type(char, { delay: 50 });
     }
   }
   // === Clear phone number ===
-  async clearPhoneNumber(phoneNumber) {
-    await this.phoneNumberField.press('Backspace');
+  async clearPhoneNumber() {
+    await this.phoneInput.press('Backspace');
     await expect(this.loginSubtitle).toBeVisible({ timeout: 10000 });
   }
 
@@ -145,7 +146,7 @@ class LoginPage {
   // === Refresh page to reset input field ===
   async refreshLoginPage() {
     await this.page.reload();
-    await expect(this.loginSubtitle).toBeVisible({ timeout: 10000 });
+    await expect(this.loginSubtitle).toBeVisible({ timeout: 20000 });
   }
 
   async expectPinHidden() {

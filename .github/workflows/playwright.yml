@@ -32,10 +32,11 @@ jobs:
             --project=mobileMid-portrait-chromium-ar \
             --project=mobileMin-portrait-chromium-ku \
             --project=tabletSmall-portrait-webkit-ar \
-            --project=tabletSmall-landscape-webkit-ar \
+            --project=tabletLarge-portrait-chromium-ar \
             --project=desktop-chromium-en \
             --project=desktop-firefox-ar \
             --project=desktop-webkit-ku \
+            --workers=1 \
             --reporter=html
         continue-on-error: true # to allow report publishing and Slack notification even if tests fail
 
