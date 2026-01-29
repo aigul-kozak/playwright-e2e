@@ -56,6 +56,10 @@ jobs:
           publish_branch: gh-pages
           destination_dir: latest
 
+      - name: Set Playwright report URL
+        run: |
+          echo "REPORT_URL=https://aigul-kozak.github.io/playwright-e2e/${{ github.run_number }}-${{ github.run_id }}/" >> $GITHUB_ENV
+
       - name: Send Slack notification
         if: always()
         uses: 8398a7/action-slack@v3
@@ -76,6 +80,7 @@ jobs:
             • desktop-firefox-ar
             • desktop-webkit-ku
 
-            📊 *HTML report:* https://aigul-kozak.github.io/playwright-e2e/latest/
+            📊 *HTML report:* ${{ env.REPORT_URL }}
+
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
