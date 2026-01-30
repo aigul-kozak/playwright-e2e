@@ -2,8 +2,7 @@ name: Playwright E2E (Nightly)
 
 on:
   # Nightly run + manual run possibility
-  schedule:
-    - cron: "0 2 * * *" # every day at 02:00 UTC
+  
   workflow_dispatch: # manual run
 
 jobs:
