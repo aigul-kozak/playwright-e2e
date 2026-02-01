@@ -39,13 +39,16 @@ jobs:
             --reporter=html
         continue-on-error: true # to allow report publishing and Slack notification even if tests fail
 
+      - name: Set report date
+        run: echo "REPORT_DATE=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Publish Playwright report (unique run)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GH_PAGES_PAT }}
           publish_dir: ./playwright-report
           publish_branch: gh-pages
-          destination_dir: ${{ github.run_number }}-${{ github.run_id }}
+          destination_dir: ${{ env.REPORT_DATE }}_${{ github.run_number }}
 
       - name: Publish Playwright report (latest)
         uses: peaceiris/actions-gh-pages@v4
