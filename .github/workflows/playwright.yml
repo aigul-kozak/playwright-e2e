@@ -2,7 +2,6 @@ name: Playwright E2E (Nightly)
 
 on:
   # Nightly run + manual run possibility
-  
   workflow_dispatch: # manual run
 
 jobs:
